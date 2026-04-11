@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA para Docentes Universitarios | UNLu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,800;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-main: #0a1628;
+            --bg-mid: #1a4a7a;
+            --bg-darker: #060e1a;
+            --accent: #00c8e0;
+            --accent-hover: #00e0fb;
+            --text-main: #ffffff;
+            --text-sec: #e0e0e0;
+            --nav-height: 70px;
+        }
+
+        /* Reset & Base Default */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='103.923' viewBox='0 0 60 103.923' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 103.923L0 86.6025L0 51.9615L30 34.641L60 51.9615L60 86.6025L30 103.923Z' fill='none' stroke='%230f1f3d' stroke-width='1'/%3E%3Cpath d='M30 51.9615L0 34.641L0 0L30 -17.3205L60 0L60 34.641L30 51.9615Z' fill='none' stroke='%230f1f3d' stroke-width='1'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid var(--bg-mid);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            vertical-align: middle;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .navbar-links a {
+            color: var(--text-sec);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--bg-main);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 200, 224, 0.4);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(0, 200, 224, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 200, 224, 0.2);
+        }
+
+        /* Typography Tools */
+        .uppercase { text-transform: uppercase; }
+        .bold { font-weight: 800; }
+        .condensed { letter-spacing: -0.5px; }
+        .italic { font-style: italic; }
+        .cyan-text { color: var(--accent); }
+        .sec-text { color: var(--text-sec); }
+
+        /* General Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Section: Hero */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background-image: linear-gradient(
+                rgba(10, 22, 40, 0.85),
+                rgba(10, 22, 40, 0.95)
+            ), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1200');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding-top: var(--nav-height);
+            padding-bottom: 6vw;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-supertitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-sec);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--accent);
+            font-style: italic;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Hero Diagonal Separator */
+        .hero-diagonal {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: clamp(60px, 8vw, 120px);
+            background-color: var(--bg-main);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+            z-index: 5;
+        }
+
+        .hero-diagonal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent);
+            clip-path: polygon(0 100%, 100% -100%, 100% 100%);
+            transform: translateY(-8px);
+            z-index: -1;
+        }
+
+        .hero-diagonal-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: clamp(64px, 8.2vw, 124px);
+            background: var(--accent);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+            z-index: 4;
+        }
+
+        /* Section: Datos Rápidos */
+        .quick-facts {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: -30px;
+            position: relative;
+            z-index: 20;
+            padding: 0 20px;
+        }
+
+        .fact-card {
+            background-color: var(--bg-darker);
+            border: 1px solid var(--bg-mid);
+            padding: 20px 30px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .fact-icon {
+            font-size: 2rem;
+        }
+
+        .fact-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Section: Descripción */
+        .description-box {
+            background: rgba(26, 74, 122, 0.4);
+            border-left: 4px solid var(--accent);
+            padding: 30px 40px;
+            font-size: 1.2rem;
+            color: var(--text-sec);
+            margin: 0 auto;
+            max-width: 900px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Section: Herramientas */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .tool-card {
+            background: var(--bg-mid);
+            border: 1px solid rgba(0, 200, 224, 0.2);
+            padding: 40px 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: rgba(0, 200, 224, 0.1);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+
+        .tool-title {
+            color: var(--accent);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* Section: Estructura */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--bg-mid);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: var(--bg-darker);
+            border: 1px solid var(--bg-mid);
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 30px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 4px solid var(--bg-main);
+        }
+
+        .timeline-item h4 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .timeline-item .meta {
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        /* Section: Certificación */
+        .cert-requirements-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .cert-box {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(26, 74, 122, 0.4);
+            padding: 40px;
+            border-radius: 12px;
+        }
+        
+        .cert-box h3 {
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cert-box ul {
+            list-style: none;
+        }
+        
+        .cert-box li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .cert-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Section: Equipo */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: var(--bg-darker);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            border-style: solid;
+            border-color: var(--bg-mid);
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 auto 20px;
+            color: var(--bg-main);
+        }
+
+        .avatar.cyan { background: var(--accent); }
+        .avatar.blue { background: var(--bg-mid); color: white; }
+
+        .team-name {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .team-inst {
+            font-size: 0.85rem;
+            color: var(--text-sec);
+        }
+
+        .avatar-note {
+            font-size: 0.8rem;
+            color: var(--text-sec);
+            font-style: italic;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--bg-mid);
+        }
+
+        /* Section: Bottom CTA (Inscripción) */
+        .cta-section {
+            background: var(--bg-mid);
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .cta-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .fees {
+            background: var(--bg-darker);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: left;
+            border-left: 4px solid var(--accent);
+        }
+
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .fee-item:last-child {
+            border-bottom: none;
+        }
+
+        .fee-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .contact-email {
+            display: inline-block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-main);
+            border-bottom: 2px dashed var(--accent);
+            margin: 20px 0 40px;
+            padding-bottom: 5px;
+        }
+
+        .contact-email:hover {
+            color: var(--accent);
+            border-style: solid;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 30px;
+            color: var(--text-sec);
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 20px; }
+            .navbar-links { display: none; } /* Simplified for mobile */
+            
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .hero-buttons { flex-direction: column; }
+            .btn { width: 100%; }
+            
+            .quick-facts { margin-top: 40px; }
+            .fact-card { width: 100%; max-width: none; }
+            
+            .description-box { padding: 25px 20px; font-size: 1.1rem; }
+            
+            .timeline { padding-left: 20px; }
+            .timeline-item::before { left: -25px; }
+
+            .fee-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-brand">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Logo_unlu.png/200px-Logo_unlu.png" alt="Logo UNLu">
+        </a>
+        <div class="navbar-links">
+            <a href="#taller">El Taller</a>
+            <a href="#herramientas">Herramientas</a>
+            <a href="#cronograma">Cronograma</a>
+            <a href="#equipo">Equipo</a>
+            <a href="#inscripcion">Inscripción</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="inicio">
+        <div class="hero-content">
+            <span class="hero-supertitle">Taller de Actualización</span>
+            <h1 class="hero-title">Inteligencia Artificial<br>para Docentes Universitarios</h1>
+            <h2 class="hero-subtitle">Herramientas de Claude para transformar la enseñanza</h2>
+            <div class="hero-buttons">
+                <a href="#inscripcion" class="btn btn-primary">Inscribirse</a>
+                <a href="#taller" class="btn btn-outline">Más información</a>
+            </div>
+        </div>
+        <div class="hero-diagonal-line"></div>
+        <div class="hero-diagonal"></div>
+    </header>
+
+    <!-- Datos Rápidos -->
+    <div class="quick-facts">
+        <div class="fact-card">
+            <div class="fact-icon">⏱️</div>
+            <div class="fact-text">Carga horaria: 18 horas</div>
+        </div>
+        <div class="fact-card">
+            <div class="fact-icon">💻</div>
+            <div class="fact-text">3 encuentros sincrónicos</div>
+        </div>
+        <div class="fact-card">
+            <div class="fact-icon">🌐</div>
+            <div class="fact-text">Modalidad: Virtual Sincrónica + Asincrónica</div>
+        </div>
+        <div class="fact-card">
+            <div class="fact-icon">👥</div>
+            <div class="fact-text">Cupo: 40 participantes</div>
+        </div>
+    </div>
+
+    <!-- Descripción -->
+    <section class="container" id="taller">
+        <h2 class="section-title">El próximo paso <span class="cyan-text">en la educación</span></h2>
+        <div class="description-box">
+            <p>Sumate al taller y superá la curva de aprendizaje en el uso de IA. Sabemos que muchos docentes ya experimentan con herramientas básicas, pero queremos llevar tu práctica al siguiente nivel. Exploraremos cómo pasar de la simple indicación de instrucciones (prompts) a un uso estratégico, aprovechando funcionalidades avanzadas de Claude como Artefactos, Proyectos, Skills y Conectores. Descubrí cómo estas herramientas empoderan tu metodología de enseñanza y potencian el aprendizaje de tus alumnos a través de aplicaciones concretas y estratégicas.</p>
+        </div>
+    </section>
+
+    <!-- Herramientas -->
+    <section class="container" id="herramientas">
+        <h2 class="section-title">Enfoque <span class="cyan-text">Tecnológico</span></h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-icon">📦</div>
+                <h3 class="tool-title">1. Artefactos</h3>
+                <p>Claude deja de ser solo un interlocutor y pasa a generar productos concretos y descargables: rúbricas, consignas, guías, formularios y secuencias didácticas listas para usar.</p>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">🧠</div>
+                <h3 class="tool-title">2. Proyectos</h3>
+                <p>Memoria institucional persistente. Cargás el contexto de tu asignatura una vez (perfil, enfoque, carrera) y Claude lo recuerda en todas las conversaciones.</p>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">⚙️</div>
+                <h3 class="tool-title">3. Skills</h3>
+                <p>Definición de comportamientos docentes propios. Lográ resultados predictivos y consistentes para tareas repetitivas como diseño de consignas, construcción de rúbricas o feedback evaluativo.</p>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">🔗</div>
+                <h3 class="tool-title">4. Conectores</h3>
+                <p>Integración de alto nivel con Drive, Gmail, Google Sheets y Canva. Claude pasa a trabajar de manera conectada dentro del ecosistema real de trabajo del equipo docente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estructura -->
+    <section class="container" id="cronograma">
+        <h2 class="section-title">Estructura <span class="cyan-text">del Taller</span></h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h4>Encuentro 1</h4>
+                <div class="meta">Semana 1 - 90 min (Sincrónico)</div>
+                <p><strong>Artefactos y Proyectos:</strong> Implementación de productos concretos asistidos por IA y configuración de la memoria persistente para el contexto de la cátedra.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>Trabajo Asincrónico</h4>
+                <div class="meta">Semana 1 (Plataforma Moodle UNLu)</div>
+                <p>Aplicación de las herramientas estructuradas (Proyecto y Artefacto) en situaciones docentes reales.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>Encuentro 2</h4>
+                <div class="meta">Semana 1 - 90 min (Sincrónico)</div>
+                <p><strong>Skills:</strong> Definición, conceptualización y creación práctica de comportamientos personalizados que automaticen correcciones y revisiones formativas.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>Trabajo Asincrónico</h4>
+                <div class="meta">Semana 2 (Plataforma Moodle UNLu)</div>
+                <p>Iteración de Skills generadas interpares y prueba de resistencia contra bases de datos reales.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>Encuentro 3</h4>
+                <div class="meta">Semana 2 - 90 min (Sincrónico)</div>
+                <p><strong>Conectores y Cierre:</strong> Articulación con integraciones (Google Suite, Moodle, Canva). Dimensión bioética y tratamiento y protección de datos en la Universidad.</p>
+            </div>
+            <div class="timeline-item" style="border-left: 4px solid var(--accent)">
+                <h4>Trabajo Final Integrador</h4>
+                <div class="meta">Entregable para Certificación</div>
+                <p>Propuesta integral de incorporación y flujos técnicos listos para impactar directamente en el dictado y evaluación de la asignatura del docente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificación y Requisitos -->
+    <section class="container">
+        <h2 class="section-title">Requisitos y <span class="cyan-text">Certificación</span></h2>
+        
+        <div class="cert-requirements-wrapper">
+            <div class="cert-box">
+                <h3>📜 Esquema de Certificados</h3>
+                <ul>
+                    <li><strong>Certificado de Asistencia:</strong> Requiere al menos un 75% de participación activa en los encuentros sincrónicos.</li>
+                    <li><strong>Certificado de Aprobación:</strong> Requiere el 75% de asistencia + cumplimiento del 75% en actividades asincrónicas + Trabajo Final Integrador aprobado.</li>
+                </ul>
+            </div>
+            <div class="cert-box" style="background: rgba(6, 14, 26, 0.4); border: 1px dashed var(--bg-mid);">
+                <h3>⚙️ Requisitos de Acceso</h3>
+                <ul>
+                    <li>Cuenta personal registrada y activa en el plan gratuito de <strong>claude.ai</strong>.</li>
+                    <li>Computadora personal con acceso a internet.</li>
+                    <li>Usuario regular de herramientas ofimáticas (Docs, Sheets, Drive).</li>
+                    <li>Perfil como docente o adscripto de nivel universitario.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipo -->
+    <section class="container" id="equipo">
+        <h2 class="section-title">El <span class="cyan-text">Equipo</span></h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="avatar cyan">🤖</div>
+                <h3 class="team-name">Jorge Pablo Sela</h3>
+                <div class="team-role">Docente Responsable</div>
+                <div class="team-inst">Profesor Asociado | UNLu</div>
+                <div class="avatar-note">Nota: El Prof. Sela utiliza recursos visuales y avatares como herramienta pedagógica interactiva en sus seminarios universitarios.</div>
+            </div>
+            <div class="team-card">
+                <div class="avatar blue">RC</div>
+                <h3 class="team-name">Ricardo Castiñeira</h3>
+                <div class="team-role">Co-disertante</div>
+                <div class="team-inst">Docente Experto Institucional</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inscripción -->
+    <section class="cta-section" id="inscripcion">
+        <div class="cta-inner">
+            <h2 class="cta-title">Asegurá tu lugar</h2>
+            <p class="sec-text" style="font-size: 1.2rem;">Cupos limitados a 40 participantes — Primer cuatrimestre 2026</p>
+            
+            <div class="fees">
+                <div class="fee-item">
+                    <span>Docentes, no docentes y estudiantes de la UNLu</span>
+                    <span class="fee-value" style="color: #4ade80;">GRATUITO</span>
+                </div>
+                <div class="fee-item">
+                    <span>Participantes externos (Público General)</span>
+                    <span class="fee-value">Arancel: $36.000</span>
+                </div>
+            </div>
+
+            <p class="sec-text">Contacto para inscripciones formales:</p>
+            <a href="mailto:capacitacionsociales@gmail.com" class="contact-email">capacitacionsociales@gmail.com</a>
+            
+            <br>
+            <a href="mailto:capacitacionsociales@gmail.com?subject=Inscripción Taller IA Claude" class="btn btn-primary" style="font-size: 1.2rem; padding: 15px 40px;">Quiero Inscribirme</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>Universidad Nacional de Luján — División Administración, Departamento de Ciencias Sociales</p>
+        <p style="margin-top: 10px; opacity: 0.6; font-size: 0.8rem;">Taller de Actualización Docente 2026</p>
+    </footer>
+
+</body>
+</html>
